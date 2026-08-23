@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>67112732 หิรัญ สุขสมรัตน์</h1>
+    <h1>💱 Currency Converter</h1>
+
+    <div class="box">
+        <input type="number" id="amount-one" placeholder="จำนวนเงิน">
+
+        <select id="currency-one">
+            <option value="THB">THB</option>
+            <option value="USD">USD</option>
+        </select>
+
+        <p>⇅</p>
+
+        <input type="number" id="amount-two" placeholder="จำนวนเงิน">
+
+        <select id="currency-two">
+            <option value="USD">USD</option>
+            <option value="THB">THB</option>
+        </select>
+
+        <h3 id="rate">อัตราแลกเปลี่ยน: -</h3>
+
+        <button id="clear">ล้างข้อมูล</button>
+    </div>
+
+    <div class="history">
+        <h2>ประวัติการแปลงเงิน</h2>
+        <ul id="history-list"></ul>
+        <button id="clear-history">ล้างประวัติ</button>
+    </div>
+
+    <p id="update-time"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
