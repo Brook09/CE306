@@ -1,0 +1,30 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.hero {
+    padding: 100px 20px;
+    background-color: #e9ecef;
+}
+
+.hero h1 {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.card {
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+footer {
+    margin-top: 50px;
+}
+.student-name {
+    color: white;
+    font-weight: bold;
+    margin-left: auto;
+}
