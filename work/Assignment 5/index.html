@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Treasure Maze</title>
+
+    <!-- Tailwind CSS -->
+    <script>
+        tailwind.config = {
+            darkMode: "class"
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class"
+        };
+    </script>
+    <link rel="stylesheet" href="./tailwind.css">
+</head>
+
+
+<body class="min-h-screen bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-white">
+
+    <main class="mx-auto min-h-screen max-w-6xl px-4 py-6">
+
+
+        <!-- =========================
+             Header
+        ========================== -->
+
+        <header class="mb-6 text-center">
+
+            <h1 class="text-3xl font-bold sm:text-4xl">
+                🗺️ Treasure Maze 
+            </h1>
+
+            <p class="mt-2 text-slate-600 dark:text-slate-400">
+                เกมผจญภัยล่าสมบัติ
+            </p>
+            <p class="mt-2 text-slate-600 dark:text-slate-400">
+                67112732 หิรัญ สุขสมรัตน์
+            </p>
+
+        </header>
+
+
+
+        <!-- =========================
+             Game Information
+        ========================== -->
+
+        <section
+            class="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-4"
+            aria-label="ข้อมูลเกม"
+        >
+
+            <div class="rounded-xl bg-white p-4 text-center shadow dark:bg-slate-900">
+
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    LEVEL
+                </p>
+
+                <p
+                    id="levelText"
+                    class="text-2xl font-bold"
+                >
+                    1
+                </p>
+
+            </div>
+
+
+
+            <div class="rounded-xl bg-white p-4 text-center shadow dark:bg-slate-900">
+
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    ❤️ HP
+                </p>
+
+                <p
+                    id="hpText"
+                    class="text-2xl font-bold"
+                >
+                    3
+                </p>
+
+            </div>
+
+
+
+            <div class="rounded-xl bg-white p-4 text-center shadow dark:bg-slate-900">
+
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    ⭐ SCORE
+                </p>
+
+                <p
+                    id="scoreText"
+                    class="text-2xl font-bold"
+                >
+                    0
+                </p>
+
+            </div>
+
+
+
+            <div class="rounded-xl bg-white p-4 text-center shadow dark:bg-slate-900">
+
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    💎 TREASURE
+                </p>
+
+                <p
+                    id="treasureText"
+                    class="text-2xl font-bold"
+                >
+                    0/1
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             Main Layout
+        ========================== -->
+
+        <div class="grid gap-6 lg:grid-cols-[1fr_300px]">
+
+
+
+            <!-- =========================
+                 Game Area
+            ========================== -->
+
+            <section
+                class="rounded-2xl bg-white p-4 shadow dark:bg-slate-900 sm:p-6"
+                aria-label="พื้นที่เล่นเกม"
+            >
+
+
+                <!-- Status -->
+
+                <div
+                    id="statusMessage"
+                    role="status"
+                    aria-live="polite"
+                    class="mb-4 rounded-xl bg-blue-50 p-3 text-center font-medium text-blue-800 dark:bg-blue-950 dark:text-blue-200"
+                >
+
+                    กด "เริ่มเกม" เพื่อเริ่มเล่น
+
+                </div>
+
+
+
+                <!-- Game Board -->
+
+                <div
+                    id="gameBoard"
+                    tabindex="0"
+                    aria-label="กระดานเกม"
+                    class="mx-auto grid w-full max-w-[500px] overflow-hidden rounded-xl border-4 border-slate-700 bg-slate-700 outline-none focus:ring-4 focus:ring-blue-500"
+                ></div>
+
+
+
+                <!-- Keyboard Controls -->
+
+                <div class="mx-auto mt-5 grid w-40 grid-cols-3 gap-2">
+
+
+                    <div></div>
+
+
+                    <button
+                        type="button"
+                        data-key="ArrowUp"
+                        class="rounded-lg bg-slate-200 px-4 py-3 text-xl font-bold hover:bg-slate-300 focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+                        aria-label="เดินขึ้น"
+                    >
+                        ↑
+                    </button>
+
+
+                    <div></div>
+
+
+
+                    <button
+                        type="button"
+                        data-key="ArrowLeft"
+                        class="rounded-lg bg-slate-200 px-4 py-3 text-xl font-bold hover:bg-slate-300 focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+                        aria-label="เดินซ้าย"
+                    >
+                        ←
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        data-key="ArrowDown"
+                        class="rounded-lg bg-slate-200 px-4 py-3 text-xl font-bold hover:bg-slate-300 focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+                        aria-label="เดินลง"
+                    >
+                        ↓
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        data-key="ArrowRight"
+                        class="rounded-lg bg-slate-200 px-4 py-3 text-xl font-bold hover:bg-slate-300 focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:hover:bg-slate-600"
+                        aria-label="เดินขวา"
+                    >
+                        →
+                    </button>
+
+                </div>
+
+
+
+                <p class="mt-4 text-center text-sm text-slate-500 dark:text-slate-400">
+
+                    ใช้ Arrow Keys หรือ W A S D เพื่อเดิน
+
+                </p>
+
+            </section>
+
+
+
+            <!-- =========================
+                 Sidebar
+            ========================== -->
+
+            <aside class="space-y-4">
+
+
+
+                <!-- Rules -->
+
+                <section class="rounded-2xl bg-white p-5 shadow dark:bg-slate-900">
+
+                    <h2 class="text-lg font-bold">
+                        📜 กติกา
+                    </h2>
+
+
+                    <ul class="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+
+                        <li>
+                            • เก็บ 💎 ให้ครบตาม Level
+                        </li>
+
+                        <li>
+                            • Level 1 = 1 💎
+                        </li>
+
+                        <li>
+                            • Level 2 = 2 💎
+                        </li>
+
+                        <li>
+                            • Level 3 = 3 💎
+                        </li>
+
+                        <li>
+                            • Level 4 = 4 💎
+                        </li>
+
+                        <li>
+                            • Level 5 = 5 💎
+                        </li>
+
+                        <li>
+                            • ชนกำแพงเสีย HP
+                        </li>
+
+                        <li>
+                            • เก็บเพชรครบแล้วไป 🏁
+                        </li>
+
+                        <li>
+                            • ถึง 🏁 แล้วไป Level ต่อไป
+                        </li>
+
+                        <li>
+                            • ผ่าน Level 5 = ชนะเกม
+                        </li>
+
+                    </ul>
+
+                </section>
+
+
+
+                <!-- Buttons -->
+
+                <section class="rounded-2xl bg-white p-5 shadow dark:bg-slate-900">
+
+                    <div class="space-y-3">
+
+
+                        <button
+                            id="startButton"
+                            type="button"
+                            class="w-full rounded-xl bg-blue-600 px-4 py-3 font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                        >
+                            ▶ เริ่มเกม
+                        </button>
+
+
+
+                        <button
+                            id="restartButton"
+                            type="button"
+                            class="w-full rounded-xl bg-slate-700 px-4 py-3 font-bold text-white hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300"
+                        >
+                            🔄 เริ่มใหม่
+                        </button>
+
+
+
+                        <button
+                            id="increaseLevelButton"
+                            type="button"
+                            class="w-full rounded-xl bg-purple-600 px-4 py-3 font-bold text-white hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300"
+                        >
+                            ⬆️ เพิ่ม Level
+                        </button>
+
+
+
+                        <button
+                            id="decreaseLevelButton"
+                            type="button"
+                            class="w-full rounded-xl bg-orange-600 px-4 py-3 font-bold text-white hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300"
+                        >
+                            ⬇️ ลด Level
+                        </button>
+
+
+
+                        <button
+                            id="helpButton"
+                            type="button"
+                            aria-expanded="false"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-bold hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
+                        >
+                            📖 วิธีเล่น
+                        </button>
+
+
+
+                        <button
+                            id="themeButton"
+                            type="button"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-bold hover:bg-slate-100 focus:ring-4 focus:ring-blue-300 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
+                        >
+                            🌙 Dark Mode
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- Help -->
+
+                <section
+                    id="helpPanel"
+                    hidden
+                    class="rounded-2xl bg-blue-50 p-5 text-sm dark:bg-blue-950"
+                >
+
+                    <h2 class="font-bold">
+                        📖 วิธีเล่น
+                    </h2>
+
+
+                    <p class="mt-2 leading-6">
+
+                        1. กดปุ่มเริ่มเกม<br>
+
+                        2. ใช้ Arrow Keys หรือ W A S D<br>
+
+                        3. เดินเก็บ 💎 ให้ครบ<br>
+
+                        4. เดินไปที่ 🏁<br>
+
+                        5. เมื่อถึงเส้นชัยจะไป Level ถัดไปอัตโนมัติ<br>
+
+                        6. Level สูงขึ้นจะมีเพชรมากขึ้น<br>
+
+                        7. ชนกำแพงจะเสีย HP<br>
+
+                        8. HP หมด = แพ้<br>
+
+                        9. ผ่าน Level 5 = ชนะเกม
+
+                    </p>
+
+                </section>
+
+            </aside>
+
+        </div>
+
+
+
+        <footer class="mt-6 text-center text-sm text-slate-500">
+
+            Treasure Maze | Tailwind CSS + JavaScript
+
+        </footer>
+
+    </main>
+
+
+
+    <!-- =====================================
+         Reduced Motion
+    ====================================== -->
+
+        <script src="./game.js"></script>
+</body>
+
+</html>
