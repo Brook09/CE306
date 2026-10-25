@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบแจ้งซ่อมภายในมหาวิทยาลัย</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <section class="login-screen" id="login-screen">
+    <div class="login-visual">
+      <div class="login-brand"><div class="brand-icon">🔧</div><div><strong>UNI FIX</strong><small>University Maintenance System</small></div></div>
+      <div class="login-hero">
+        <div class="login-illustration">🛠️</div>
+        <p class="welcome-tag">SMART CAMPUS • BETTER SERVICE</p>
+        <h1>แจ้งซ่อมง่าย<br>ติดตามได้ทุกขั้นตอน</h1>
+        <p>ระบบจัดการงานซ่อมบำรุงภายในมหาวิทยาลัย<br>สำหรับนักศึกษา บุคลากร และเจ้าหน้าที่</p>
+      </div>
+      <div class="login-visual-footer">University Maintenance Request System</div>
+    </div>
+    <div class="login-panel">
+      <form id="login-form" class="login-form">
+        <div class="mobile-login-brand"><div class="brand-icon">🔧</div><strong>UNI FIX</strong></div>
+        <p class="eyebrow">WELCOME BACK</p>
+        <h2>เข้าสู่ระบบ</h2>
+        <p class="login-subtitle">กรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้งาน</p>
+        <label>ชื่อผู้ใช้<input id="login-username" name="username" autocomplete="username" required placeholder="กรอกชื่อผู้ใช้"></label>
+        <label>รหัสผ่าน<input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="กรอกรหัสผ่าน"></label>
+        <p class="login-error hidden" id="login-error" role="alert">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</p>
+        <button type="submit" class="primary-btn login-submit">เข้าสู่ระบบ →</button>
+        <div class="demo-accounts">
+          <strong>บัญชีทดลองสำหรับนำเสนอ</strong>
+          <div><span>Admin</span><code>admin / admin123</code><button type="button" data-demo-user="admin">ใช้บัญชีนี้</button></div>
+          <div><span>User</span><code>user / user123</code><button type="button" data-demo-user="user">ใช้บัญชีนี้</button></div>
+        </div>
+        <p class="login-warning">หมายเหตุ: บัญชีทดลองนี้ใช้สำหรับต้นแบบ Frontend เท่านั้น ไม่เหมาะกับการใช้งานจริง</p>
+      </form>
+    </div>
+  </section>
+
+  <div id="app-shell" class="hidden">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">🔧</div>
+      <div><strong>UNI FIX</strong><small>Maintenance System</small></div>
+    </div>
+    <nav>
+      <button class="nav-link active" data-view="dashboard"><span>▦</span> ภาพรวมระบบ</button>
+      <button class="nav-link" data-view="requests"><span>☷</span> รายการแจ้งซ่อม</button>
+      <button class="nav-link" data-view="new-request"><span>＋</span> แจ้งซ่อมใหม่</button>
+    </nav>
+    <div class="role-note" id="role-note">สิทธิ์ผู้ดูแลระบบ</div>
+    <div class="sidebar-bottom">
+      <div class="profile-avatar" id="profile-avatar">AD</div>
+      <div><strong id="profile-name">ผู้ดูแลระบบ</strong><small id="profile-role">Administrator</small></div>
+      <button class="logout-btn" id="logout-btn" title="ออกจากระบบ" aria-label="ออกจากระบบ">↪</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">UNIVERSITY MAINTENANCE</p>
+        <h1 id="page-title">ภาพรวมระบบ</h1>
+      </div>
+      <div class="top-actions">
+        <span class="role-pill" id="role-pill">ADMIN</span>
+        <span class="today" id="today-label"></span>
+        <button class="primary-btn" id="top-new-btn">＋ แจ้งซ่อมใหม่</button>
+      </div>
+    </header>
+
+    <section class="view active" id="dashboard-view">
+      <div class="welcome-card">
+        <div>
+          <p class="welcome-tag">ระบบจัดการงานซ่อมบำรุง</p>
+          <h2>จัดการทุกปัญหา<br>ได้ในที่เดียว</h2>
+          <p>แจ้งปัญหา ติดตามสถานะ และจัดการงานซ่อมภายในมหาวิทยาลัยอย่างเป็นระบบ</p>
+          <button class="light-btn" id="welcome-new-btn">＋ สร้างรายการแจ้งซ่อม</button>
+        </div>
+        <div class="welcome-art" aria-hidden="true">
+          <div class="art-circle">🔧</div><div class="art-card">✓ <span>Repair made simple</span></div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div><h2>สรุปงานแจ้งซ่อม</h2><p>ภาพรวมรายการแจ้งซ่อมทั้งหมดในระบบ</p></div>
+        <button class="text-btn" id="view-all-btn">ดูรายการทั้งหมด →</button>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>รายการทั้งหมด</span><span class="stat-icon purple">▤</span></div><strong id="stat-total">0</strong><small>รายการแจ้งซ่อมในระบบ</small></article>
+        <article class="stat-card"><div class="stat-top"><span>รอรับเรื่อง</span><span class="stat-icon orange">◷</span></div><strong id="stat-pending">0</strong><small>รอเจ้าหน้าที่ดำเนินการ</small></article>
+        <article class="stat-card"><div class="stat-top"><span>กำลังดำเนินการ</span><span class="stat-icon blue">⚙</span></div><strong id="stat-progress">0</strong><small>อยู่ระหว่างการซ่อม</small></article>
+        <article class="stat-card"><div class="stat-top"><span>ซ่อมเสร็จแล้ว</span><span class="stat-icon green">✓</span></div><strong id="stat-done">0</strong><small>ดำเนินการเรียบร้อย</small></article>
+      </div>
+
+      <div class="content-card">
+        <div class="section-heading compact"><div><h2>รายการแจ้งซ่อมล่าสุด</h2><p>ตรวจสอบงานที่ถูกแจ้งเข้ามา</p></div><button class="outline-btn" id="recent-view-btn">ดูทั้งหมด</button></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>รหัส / รายการ</th><th>สถานที่</th><th>ประเภท</th><th>วันที่แจ้ง</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+            <tbody id="recent-table-body"></tbody>
+          </table>
+        </div>
+        <div class="empty-state hidden" id="recent-empty">ยังไม่มีรายการแจ้งซ่อม กด “แจ้งซ่อมใหม่” เพื่อเริ่มต้น</div>
+      </div>
+    </section>
+
+    <section class="view" id="requests-view">
+      <div class="section-heading"><div><h2>รายการแจ้งซ่อมทั้งหมด</h2><p>ค้นหาและติดตามสถานะงานซ่อม</p></div><button class="primary-btn" id="list-new-btn">＋ แจ้งซ่อมใหม่</button></div>
+      <div class="content-card">
+        <div class="toolbar">
+          <label class="search-box">⌕ <input type="search" id="search-input" placeholder="ค้นหารหัส หัวข้อ หรือสถานที่..."></label>
+          <select id="status-filter" aria-label="กรองตามสถานะ"><option value="">ทุกสถานะ</option><option>รอรับเรื่อง</option><option>รับเรื่องแล้ว</option><option>กำลังดำเนินการ</option><option>ซ่อมเสร็จแล้ว</option><option>ยกเลิกคำร้อง</option></select>
+          <select id="category-filter" aria-label="กรองตามประเภท"><option value="">ทุกประเภท</option><option>ไฟฟ้า</option><option>ประปา</option><option>อาคารสถานที่</option><option>อุปกรณ์คอมพิวเตอร์</option><option>อินเทอร์เน็ต</option><option>อื่น ๆ</option></select>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>รหัส / รายการ</th><th>สถานที่</th><th>ประเภท</th><th>วันที่แจ้ง</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody id="all-table-body"></tbody></table>
+        </div>
+        <div class="empty-state hidden" id="all-empty">ไม่พบรายการแจ้งซ่อมที่ตรงกับเงื่อนไข</div>
+      </div>
+    </section>
+
+    <section class="view" id="new-request-view">
+      <div class="form-intro"><div class="form-icon">🛠️</div><div><h2>แจ้งซ่อมรายการใหม่</h2><p>กรอกรายละเอียดปัญหาให้ครบถ้วน เพื่อให้เจ้าหน้าที่ดำเนินการได้รวดเร็วขึ้น</p></div></div>
+      <form id="repair-form" class="content-card repair-form">
+        <div class="form-grid">
+          <label>หัวข้อปัญหา <span>*</span><input name="title" required maxlength="100" placeholder="เช่น หลอดไฟในห้องเรียนไม่ติด"></label>
+          <label>ประเภทงานซ่อม <span>*</span><select name="category" required><option value="">เลือกประเภท</option><option>ไฟฟ้า</option><option>ประปา</option><option>อาคารสถานที่</option><option>อุปกรณ์คอมพิวเตอร์</option><option>อินเทอร์เน็ต</option><option>อื่น ๆ</option></select></label>
+          <label>อาคาร <span>*</span><input name="building" required placeholder="เช่น อาคารเรียน 1"></label>
+          <label>ห้อง / ตำแหน่ง <span>*</span><input name="room" required placeholder="เช่น ห้อง 204 ชั้น 2"></label>
+          <label>ชื่อผู้แจ้ง <span>*</span><input name="reporter" required placeholder="ชื่อ-นามสกุล"></label>
+          <label>เบอร์ติดต่อ <input name="phone" inputmode="tel" placeholder="เบอร์โทรศัพท์ (ถ้ามี)"></label>
+          <label class="full-width">รายละเอียดปัญหา <span>*</span><textarea name="description" rows="5" required placeholder="อธิบายอาการหรือปัญหาที่พบ..."></textarea></label>
+          <label class="full-width">แนบรูปภาพปัญหา (ถ้ามี)<input type="file" id="repair-image" name="image" accept="image/*"><small class="field-help">รองรับไฟล์ภาพ ระบบจะย่อขนาดก่อนบันทึกเพื่อช่วยลดการใช้พื้นที่</small><img id="image-preview" class="image-preview hidden" alt="ตัวอย่างรูปภาพปัญหา"></label>
+        </div>
+        <div class="form-note">ⓘ กรุณาระบุสถานที่ให้ชัดเจน เพื่อช่วยให้เจ้าหน้าที่เข้าตรวจสอบได้สะดวก</div>
+        <div class="form-actions"><button type="reset" class="outline-btn">ล้างข้อมูล</button><button type="submit" class="primary-btn">ส่งรายการแจ้งซ่อม →</button></div>
+      </form>
+    </section>
+
+    <footer>University Maintenance Request System <span>•</span> ต้นแบบสำหรับการศึกษา</footer>
+  </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="detail-dialog" class="detail-dialog">
+    <div class="dialog-head"><div><p class="eyebrow">REPAIR REQUEST DETAILS</p><h2>รายละเอียดการแจ้งซ่อม</h2></div><button class="icon-btn" id="close-dialog" aria-label="ปิด">✕</button></div>
+    <div id="detail-content"></div>
+    <div class="dialog-actions"><button class="outline-btn" id="delete-detail-btn">ลบรายการ</button><button class="primary-btn" id="close-detail-btn">ปิดหน้าต่าง</button></div>
+  </dialog>
+</body>
+</html>
